@@ -204,6 +204,10 @@ type Telemetry struct {
 	// metrics will be streamed to that instance.
 	StatsiteAddr string `mapstructure:"statsite_address"`
 
+	// StatsdPrefix is the prefix used to write stats values to. By
+	// default this is set to ''.
+	StatsdPrefix string `map:"statsd_prefix"`
+
 	// StatsdAddr is the address of a statsd instance. If provided,
 	// metrics will be sent to that instance.
 	StatsdAddr string `mapstructure:"statsd_address"`
@@ -1122,6 +1126,10 @@ func DecodeConfig(r io.Reader) (*Config, error) {
 			result.Telemetry.StatsdAddr = sub.(string)
 		}
 
+		if sub, ok := obj["statsd_prefix"]; ok && result.Telemetry.StatsdPrefix == "" {
+			result.Telemetry.StatsdPrefix = sub.(string)
+		}
+
 		if sub, ok := obj["statsite_addr"]; ok && result.Telemetry.StatsiteAddr == "" {
 			result.Telemetry.StatsiteAddr = sub.(string)
 		}
@@ -1687,6 +1695,9 @@ func MergeConfig(a, b *Config) *Config {
 	}
 	if b.Telemetry.StatsdAddr != "" {
 		result.Telemetry.StatsdAddr = b.Telemetry.StatsdAddr
+	}
+	if b.Telemetry.StatsdPrefix != "" {
+		result.Telemetry.StatsdPrefix = b.Telemetry.StatsdPrefix
 	}
 	if b.Telemetry.StatsiteAddr != "" {
 		result.Telemetry.StatsiteAddr = b.Telemetry.StatsiteAddr

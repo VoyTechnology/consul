@@ -559,6 +559,10 @@ func TestDecodeConfig(t *testing.T) {
 			c:  &Config{Telemetry: Telemetry{StatsdAddr: "a"}},
 		},
 		{
+			in: `{"statsd_prefix":"a"}`,
+			c:  &Config{Telemetry: Telemetry{StatsdPrefix: "a"}},
+		},
+		{
 			in: `{"statsite_addr":"a"}`,
 			c:  &Config{Telemetry: Telemetry{StatsiteAddr: "a"}},
 		},
@@ -637,6 +641,10 @@ func TestDecodeConfig(t *testing.T) {
 		{
 			in: `{"telemetry":{"statsd_address":"a"}}`,
 			c:  &Config{Telemetry: Telemetry{StatsdAddr: "a"}},
+		},
+		{
+			in: `{"telemetry":{"statsd_prefix":"a"}}`,
+			c:  &Config{Telemetry: Telemetry{StatsdPrefix: "a"}},
 		},
 		{
 			in: `{"telemetry":{"statsite_address":"a"}}`,
@@ -1275,6 +1283,7 @@ func TestMergeConfig(t *testing.T) {
 		Telemetry: Telemetry{
 			DisableHostname: false,
 			StatsdAddr:      "nope",
+			StatsdPrefix:    "nope",
 			StatsiteAddr:    "nope",
 			StatsitePrefix:  "nope",
 			DogStatsdAddr:   "nope",
@@ -1388,6 +1397,7 @@ func TestMergeConfig(t *testing.T) {
 			StatsiteAddr:    "127.0.0.1:7250",
 			StatsitePrefix:  "stats_prefix",
 			StatsdAddr:      "127.0.0.1:7251",
+			StatsdPrefix:    "statsd_prefix",
 			DisableHostname: true,
 			DogStatsdAddr:   "127.0.0.1:7254",
 			DogStatsdTags:   []string{"tag_1:val_1", "tag_2:val_2"},

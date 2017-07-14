@@ -549,7 +549,7 @@ func statsdSink(config *agent.Config, hostname string) (metrics.MetricSink, erro
 	if config.Telemetry.StatsdAddr == "" {
 		return nil, nil
 	}
-	return metrics.NewStatsdSink(config.Telemetry.StatsdAddr)
+	return metrics.NewStatsdSinkWithPrefix(config.Telemetry.StatsdAddr, config.Telemetry.StatsdPrefix)
 }
 
 func dogstatdSink(config *agent.Config, hostname string) (metrics.MetricSink, error) {
